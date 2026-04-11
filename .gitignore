@@ -1,11 +1,24 @@
+# Android app (kept locally, not in repo)
+app/
+build/
 *.iml
-.gradle
-/local.properties
-/.idea
-/build
-/app/build
-.DS_Store
-/captures
-.externalNativeBuild
-.cxx
+.gradle/
+.idea/
 local.properties
+gradlew
+gradlew.bat
+gradle/
+build.gradle.kts
+settings.gradle.kts
+gradle.properties
+
+# Design mockups
+designs.html
+station_designs.html
+station_layouts.html
+widget_designs.html
+
+# Python
+__pycache__/
+*.pyc
+.env

@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white">
+
+    <!-- Black header bar: station name on left, date on right -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#FF000000"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/widget_station_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="CIRCLE K · PIGIAUSIA"
+            android:textColor="#FFFFFFFF"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/widget_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="04-11"
+            android:textColor="#FF999999"
+            android:textSize="9sp"
+            android:fontFamily="monospace" />
+    </LinearLayout>
+
+    <!-- 3 price cells -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false"
+        android:background="@android:color/white">
+
+        <!-- 95 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  95  "
+                android:textColor="#FFFFFFFF"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:background="#FF2E7D32" />
+
+            <TextView
+                android:id="@+id/widget_95_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#FF000000"
+                android:fontFamily="monospace"
+                android:paddingTop="3dp" />
+
+            <TextView
+                android:id="@+id/widget_95_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/widget_95_addr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF999999"
+                android:textSize="7sp"
+                android:fontFamily="monospace"
+                android:singleLine="true"
+                android:paddingTop="2dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="#FF000000" />
+
+        <!-- DYZ -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" DYZ "
+                android:textColor="#FFFFFFFF"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:background="#FF000000" />
+
+            <TextView
+                android:id="@+id/widget_dyz_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#FF000000"
+                android:fontFamily="monospace"
+                android:paddingTop="3dp" />
+
+            <TextView
+                android:id="@+id/widget_dyz_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/widget_dyz_addr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF999999"
+                android:textSize="7sp"
+                android:fontFamily="monospace"
+                android:singleLine="true"
+                android:paddingTop="2dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="#FF000000" />
+
+        <!-- SND -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" SND "
+                android:textColor="#FFFFFFFF"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:background="#FFD84315" />
+
+            <TextView
+                android:id="@+id/widget_snd_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#FF000000"
+                android:fontFamily="monospace"
+                android:paddingTop="3dp" />
+
+            <TextView
+                android:id="@+id/widget_snd_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/widget_snd_addr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF999999"
+                android:textSize="7sp"
+                android:fontFamily="monospace"
+                android:singleLine="true"
+                android:paddingTop="2dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Fav divider -->
+    <TextView
+        android:id="@+id/widget_fav_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#FF000000"
+        android:visibility="gone" />
+
+    <!-- Favorite station row: ★ icon + address on top line + badge prices on bottom line -->
+    <LinearLayout
+        android:id="@+id/widget_fav_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#FFF5F5F5"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="★"
+            android:textSize="14sp"
+            android:textColor="#FF000000"
+            android:paddingEnd="8dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Address -->
+            <TextView
+                android:id="@+id/widget_fav_addr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF999999"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:textAllCaps="true"
+                android:singleLine="true" />
+
+            <!-- Prices with badge labels -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="3dp"
+                android:gravity="center_vertical">
+
+                <!-- 95 badge + price -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 95 "
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="8sp"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace"
+                    android:background="#FF2E7D32" />
+
+                <TextView
+                    android:id="@+id/widget_fav_95"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:textColor="#FF000000"
+                    android:fontFamily="monospace"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="10dp" />
+
+                <!-- DYZ badge + price -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DYZ"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="8sp"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace"
+                    android:background="#FF000000" />
+
+                <TextView
+                    android:id="@+id/widget_fav_dyz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:textColor="#FF000000"
+                    android:fontFamily="monospace"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="10dp" />
+
+                <!-- SND badge + price -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SND"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="8sp"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace"
+                    android:background="#FFD84315" />
+
+                <TextView
+                    android:id="@+id/widget_fav_snd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:textColor="#FF000000"
+                    android:fontFamily="monospace"
+                    android:paddingStart="3dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fuel Price Widgets — 5 Designs</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a1a1a;color:#fff;font-family:'Space Grotesk',sans-serif;padding:40px}
+h1{text-align:center;font-size:28px;font-weight:800;margin-bottom:8px}
+p.sub{text-align:center;color:#888;font-size:13px;margin-bottom:40px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:40px;max-width:1200px;margin:0 auto}
+.wrap{display:flex;flex-direction:column;align-items:center}
+.label{font-size:12px;font-weight:600;color:#aaa;margin-bottom:10px;text-transform:uppercase;letter-spacing:1.5px}
+.phone-bg{background:#666;border-radius:24px;padding:20px;position:relative}
+.phone-bg::before{content:'';position:absolute;inset:0;border-radius:24px;background:linear-gradient(135deg,#888,#444);z-index:0}
+
+/* Widget container simulating Android home screen */
+.homescreen{
+  width:340px;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="340" height="480"><rect fill="%23e8e4df" width="340" height="480"/><rect fill="%23d4d0cb" x="20" y="380" width="70" height="70" rx="14"/><rect fill="%23d4d0cb" x="100" y="380" width="70" height="70" rx="14"/><rect fill="%23d4d0cb" x="180" y="380" width="70" height="70" rx="14"/><rect fill="%23d4d0cb" x="260" y="380" width="70" height="70" rx="14"/></svg>');
+  height:480px;border-radius:20px;overflow:hidden;position:relative;z-index:1;
+  display:flex;align-items:flex-start;justify-content:center;padding-top:20px;
+}
+
+.mono{font-family:'JetBrains Mono',monospace}
+.b95{background:#2E7D32}.bdyz{background:#000}.bsnd{background:#D84315}
+.badge{display:inline-block;padding:2px 5px;font-size:9px;font-weight:900;color:#fff;font-family:'JetBrains Mono',monospace}
+.tu{color:#D32F2F}.td{color:#2E7D32}
+
+/* ===== WIDGET 1: Compact Row ===== */
+.w1{
+  width:310px;background:#fff;border:3px solid #000;padding:0;font-family:'Space Grotesk',sans-serif;color:#000;
+}
+.w1 .header{background:#000;color:#fff;padding:6px 10px;display:flex;justify-content:space-between;align-items:center}
+.w1 .header .name{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px}
+.w1 .header .tag{font-size:9px;color:#999;font-family:'JetBrains Mono',monospace}
+.w1 .prices{display:flex;gap:0}
+.w1 .pcell{flex:1;padding:8px 6px;text-align:center;border-right:2px solid #000}
+.w1 .pcell:last-child{border:none}
+.w1 .pcell .badge{margin-bottom:3px}
+.w1 .pcell .val{font-size:18px;font-weight:900;font-family:'JetBrains Mono',monospace}
+.w1 .pcell .addr{font-size:7px;color:#999;font-family:'JetBrains Mono',monospace;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.w1 .fav-row{border-top:2px solid #000;padding:6px 10px;display:flex;gap:8px;align-items:center;background:#f5f5f5}
+.w1 .fav-row .star{font-size:12px}
+.w1 .fav-row .fav-prices{display:flex;gap:10px;font-size:11px;font-weight:700}
+.w1 .fav-row .fav-label{font-size:8px;color:#999;text-transform:uppercase;font-weight:700}
+
+/* ===== WIDGET 2: Vertical Card ===== */
+.w2{
+  width:180px;background:#fff;border:3px solid #000;color:#000;font-family:'Space Grotesk',sans-serif;
+}
+.w2 .header{background:#000;color:#fff;padding:8px;text-align:center}
+.w2 .header .name{font-size:12px;font-weight:900;text-transform:uppercase}
+.w2 .header .sub{font-size:8px;color:#999;font-family:'JetBrains Mono',monospace}
+.w2 .section{padding:8px;border-bottom:2px solid #eee}
+.w2 .section:last-child{border:none}
+.w2 .section .stitle{font-size:8px;font-weight:900;color:#999;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.w2 .row{display:flex;justify-content:space-between;align-items:center;margin:3px 0}
+.w2 .row .val{font-size:16px;font-weight:900;font-family:'JetBrains Mono',monospace}
+.w2 .row .addr{font-size:7px;color:#999;font-family:'JetBrains Mono',monospace}
+
+/* ===== WIDGET 3: Dark Minimal ===== */
+.w3{
+  width:310px;background:#111;border:2px solid #333;color:#fff;font-family:'Space Grotesk',sans-serif;padding:10px;
+}
+.w3 .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.w3 .top .name{font-size:12px;font-weight:700;text-transform:uppercase}
+.w3 .top .date{font-size:9px;color:#666;font-family:'JetBrains Mono',monospace}
+.w3 .lowest{display:flex;gap:6px;margin-bottom:8px}
+.w3 .lcard{flex:1;background:#1a1a1a;border:1px solid #333;padding:6px;text-align:center;border-radius:4px}
+.w3 .lcard .val{font-size:18px;font-weight:900;color:#00ff88;font-family:'JetBrains Mono',monospace}
+.w3 .lcard .addr{font-size:7px;color:#666;font-family:'JetBrains Mono',monospace;margin-top:2px}
+.w3 .divider{height:1px;background:#333;margin:6px 0}
+.w3 .favs .ftitle{font-size:8px;color:#666;text-transform:uppercase;font-weight:700;letter-spacing:1px;margin-bottom:4px}
+.w3 .frow{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #222}
+.w3 .frow .fname{font-size:10px;color:#999}
+.w3 .frow .fvals{display:flex;gap:8px;font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace}
+
+/* ===== WIDGET 4: Split Banner ===== */
+.w4{
+  width:310px;background:#fff;border:3px solid #000;color:#000;font-family:'Space Grotesk',sans-serif;overflow:hidden;
+}
+.w4 .banner{background:#2E7D32;color:#fff;padding:8px 10px;display:flex;justify-content:space-between;align-items:center}
+.w4 .banner .blabel{font-size:9px;font-weight:900;text-transform:uppercase;opacity:0.8}
+.w4 .banner .bprice{font-size:22px;font-weight:900;font-family:'JetBrains Mono',monospace}
+.w4 .banner .baddr{font-size:8px;opacity:0.7;font-family:'JetBrains Mono',monospace}
+.w4 .row-section{display:flex;border-top:2px solid #000}
+.w4 .half{flex:1;padding:8px;text-align:center}
+.w4 .half:first-child{border-right:2px solid #000}
+.w4 .half .hlabel{font-size:8px;font-weight:900;color:#999;text-transform:uppercase;margin-bottom:2px}
+.w4 .half .hprice{font-size:16px;font-weight:900;font-family:'JetBrains Mono',monospace}
+.w4 .half .haddr{font-size:7px;color:#999;font-family:'JetBrains Mono',monospace}
+.w4 .favstrip{background:#f5f5f5;border-top:2px solid #000;padding:6px 10px;display:flex;justify-content:space-between}
+.w4 .favstrip .fi{text-align:center}
+.w4 .favstrip .fi .flbl{font-size:7px;color:#999;font-weight:700;text-transform:uppercase}
+.w4 .favstrip .fi .fval{font-size:12px;font-weight:900;font-family:'JetBrains Mono',monospace}
+
+/* ===== WIDGET 5: Table Grid ===== */
+.w5{
+  width:310px;background:#fff;border:3px solid #000;color:#000;font-family:'Space Grotesk',sans-serif;
+}
+.w5 .header{background:#000;color:#fff;padding:8px 10px;font-size:11px;font-weight:900;text-transform:uppercase;display:flex;justify-content:space-between}
+.w5 .header .date{font-size:9px;color:#999;font-family:'JetBrains Mono',monospace;font-weight:400}
+.w5 table{width:100%;border-collapse:collapse;font-size:11px}
+.w5 th{background:#f5f5f5;padding:5px 6px;text-align:center;font-size:9px;font-weight:900;text-transform:uppercase;border-bottom:2px solid #000;color:#666}
+.w5 th:first-child{text-align:left}
+.w5 td{padding:5px 6px;text-align:center;border-bottom:1px solid #eee;font-family:'JetBrains Mono',monospace;font-weight:600}
+.w5 td:first-child{text-align:left;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:10px}
+.w5 tr.lowest-row td{background:#f0fff0}
+.w5 tr.fav-row td{background:#fff8f0;border-top:2px solid #000}
+.w5 .section-label{font-size:8px;font-weight:900;color:#999;text-transform:uppercase;padding:4px 6px;background:#f9f9f9;border-bottom:1px solid #ddd;letter-spacing:0.5px}
+</style>
+</head>
+<body>
+
+<h1>Fuel Price Widgets — 5 Designs</h1>
+<p class="sub">Android home screen widgets showing lowest prices in favorite station + favorite station prices</p>
+
+<div class="grid">
+
+<!-- WIDGET 1: Compact Row -->
+<div class="wrap">
+<span class="label">1 — Compact Row</span>
+<div class="homescreen">
+<div class="w1">
+  <div class="header">
+    <span class="name">Circle K · Pigiausia</span>
+    <span class="tag">04-10</span>
+  </div>
+  <div class="prices">
+    <div class="pcell"><span class="badge b95">95</span><div class="val">1.619</div><div class="addr">Verkių g. 5</div></div>
+    <div class="pcell"><span class="badge bdyz">DYZ</span><div class="val">2.039</div><div class="addr">Ukmergės g. 282</div></div>
+    <div class="pcell"><span class="badge bsnd">SND</span><div class="val">0.899</div><div class="addr">Ozo g. 18</div></div>
+  </div>
+  <div class="fav-row">
+    <span class="star">★</span>
+    <div>
+      <div class="fav-label">Ukmergės g. 282, Vilnius</div>
+      <div class="fav-prices">
+        <span><span class="badge b95" style="font-size:8px">95</span> 1.649</span>
+        <span><span class="badge bdyz" style="font-size:8px">DYZ</span> 2.069</span>
+        <span><span class="badge bsnd" style="font-size:8px">SND</span> 0.919</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- WIDGET 2: Vertical Card -->
+<div class="wrap">
+<span class="label">2 — Vertical Card</span>
+<div class="homescreen">
+<div class="w2">
+  <div class="header">
+    <div class="name">Circle K</div>
+    <div class="sub">2026-04-10</div>
+  </div>
+  <div class="section">
+    <div class="stitle">Pigiausia kaina</div>
+    <div class="row"><span class="badge b95">95</span><span class="val">1.619</span></div>
+    <div class="row"><span></span><span class="addr">Verkių g. 5</span></div>
+    <div class="row"><span class="badge bdyz">DYZ</span><span class="val">2.039</span></div>
+    <div class="row"><span></span><span class="addr">Ukmergės g. 282</span></div>
+    <div class="row"><span class="badge bsnd">SND</span><span class="val">0.899</span></div>
+    <div class="row"><span></span><span class="addr">Ozo g. 18</span></div>
+  </div>
+  <div class="section">
+    <div class="stitle">★ Mėgstama</div>
+    <div class="row"><span class="badge b95">95</span><span class="val">1.649</span></div>
+    <div class="row"><span class="badge bdyz">DYZ</span><span class="val">2.069</span></div>
+    <div class="row"><span class="badge bsnd">SND</span><span class="val">0.919</span></div>
+    <div class="row"><span></span><span class="addr" style="font-size:8px">UKMERGĖS G. 282</span></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- WIDGET 3: Dark Minimal -->
+<div class="wrap">
+<span class="label">3 — Dark Minimal</span>
+<div class="homescreen" style="background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22340%22 height=%22480%22><rect fill=%22%23111%22 width=%22340%22 height=%22480%22/><rect fill=%22%23222%22 x=%2220%22 y=%22380%22 width=%2270%22 height=%2270%22 rx=%2214%22/><rect fill=%22%23222%22 x=%22100%22 y=%22380%22 width=%2270%22 height=%2270%22 rx=%2214%22/><rect fill=%22%23222%22 x=%22180%22 y=%22380%22 width=%2270%22 height=%2270%22 rx=%2214%22/><rect fill=%22%23222%22 x=%22260%22 y=%22380%22 width=%2270%22 height=%2270%22 rx=%2214%22/></svg>')">
+<div class="w3">
+  <div class="top">
+    <span class="name">Circle K</span>
+    <span class="date">2026-04-10</span>
+  </div>
+  <div class="lowest">
+    <div class="lcard"><span class="badge b95">95</span><div class="val">1.619</div><div class="addr">Verkių g. 5</div></div>
+    <div class="lcard"><span class="badge bdyz">DYZ</span><div class="val" style="color:#38bdf8">2.039</div><div class="addr">Ukmergės g. 282</div></div>
+    <div class="lcard"><span class="badge bsnd">SND</span><div class="val" style="color:#ff8a65">0.899</div><div class="addr">Ozo g. 18</div></div>
+  </div>
+  <div class="divider"></div>
+  <div class="favs">
+    <div class="ftitle">★ Ukmergės g. 282, Vilnius</div>
+    <div class="frow"><span class="fname">95 benzinas</span><div class="fvals"><span>1.649</span></div></div>
+    <div class="frow"><span class="fname">Dyzelis</span><div class="fvals"><span>2.069</span></div></div>
+    <div class="frow"><span class="fname">SND</span><div class="fvals"><span>0.919</span></div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- WIDGET 4: Split Banner -->
+<div class="wrap">
+<span class="label">4 — Split Banner</span>
+<div class="homescreen">
+<div class="w4">
+  <div class="banner">
+    <div>
+      <div class="blabel">Pigiausia 95</div>
+      <div class="baddr">Verkių g. 5, Vilnius</div>
+    </div>
+    <div class="bprice">1.619</div>
+  </div>
+  <div class="row-section">
+    <div class="half">
+      <div class="hlabel"><span class="badge bdyz" style="font-size:8px">DYZ</span> Pigiausia</div>
+      <div class="hprice">2.039</div>
+      <div class="haddr">Ukmergės g. 282</div>
+    </div>
+    <div class="half">
+      <div class="hlabel"><span class="badge bsnd" style="font-size:8px">SND</span> Pigiausia</div>
+      <div class="hprice">0.899</div>
+      <div class="haddr">Ozo g. 18</div>
+    </div>
+  </div>
+  <div class="favstrip">
+    <div class="fi"><div class="flbl">★ Mėgstama · 95</div><div class="fval">1.649</div></div>
+    <div class="fi"><div class="flbl">★ DYZ</div><div class="fval">2.069</div></div>
+    <div class="fi"><div class="flbl">★ SND</div><div class="fval">0.919</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- WIDGET 5: Table Grid -->
+<div class="wrap">
+<span class="label">5 — Table Grid</span>
+<div class="homescreen">
+<div class="w5">
+  <div class="header">
+    <span>Circle K</span>
+    <span class="date">2026-04-10</span>
+  </div>
+  <div class="section-label">Pigiausia kaina tinkle</div>
+  <table>
+    <tr><th></th><th><span class="badge b95">95</span></th><th><span class="badge bdyz">DYZ</span></th><th><span class="badge bsnd">SND</span></th></tr>
+    <tr class="lowest-row">
+      <td>Kaina</td><td>1.619</td><td>2.039</td><td>0.899</td>
+    </tr>
+    <tr class="lowest-row">
+      <td>Adresas</td>
+      <td style="font-size:8px">Verkių g.</td>
+      <td style="font-size:8px">Ukmergės g.</td>
+      <td style="font-size:8px">Ozo g.</td>
+    </tr>
+  </table>
+  <div class="section-label">★ Ukmergės g. 282, Vilnius</div>
+  <table>
+    <tr class="fav-row"><td>Kaina</td><td>1.649</td><td>2.069</td><td>0.919</td></tr>
+  </table>
+</div>
+</div>
+</div>
+
+</div>
+</body>
+</html>

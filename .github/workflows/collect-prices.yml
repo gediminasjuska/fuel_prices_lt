@@ -2,8 +2,8 @@ name: Collect Fuel Prices
 
 on:
   schedule:
-    # 10:30 AM EET (UTC+3) on weekdays = 07:30 UTC
-    - cron: '30 7 * * 1-5'
+    # Every 5 minutes for testing (change back to '30 7 * * 1-5' for production)
+    - cron: '*/5 * * * *'
   workflow_dispatch:
     # Allow manual trigger from GitHub Actions UI
 

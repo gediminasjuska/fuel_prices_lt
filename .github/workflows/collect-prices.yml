@@ -2,10 +2,10 @@ name: Collect Fuel Prices
 
 on:
   schedule:
-    # Every 5 minutes for testing (change back to '30 7 * * 1-5' for production)
-    - cron: '*/5 * * * *'
+    # Backup: 10:45 AM EET (UTC+3) on weekdays, in case pg_cron fails
+    - cron: '45 7 * * 1-5'
   workflow_dispatch:
-    # Allow manual trigger from GitHub Actions UI
+    # Triggered by Supabase pg_cron at exactly 10:30 AM EET, or manually
 
 jobs:
   collect:

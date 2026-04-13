@@ -23,38 +23,47 @@ from openpyxl import load_workbook
 from supabase import create_client
 
 # --- Configuration ---
-ENA_URL = "https://www.ena.lt/degalu-kainos-degalinese/"
+ENA_URLS = [
+    "https://www.ena.lt/degalu-kainos-degalinese/",    # Main page (latest date)
+    "https://www.ena.lt/dk-visa-informacija",            # Archive page (all dates)
+]
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
 
 
 def scrape_all_excel_urls() -> dict[str, str]:
-    """Scrape ena.lt page and extract all dated Excel file URLs."""
-    print(f"Scraping {ENA_URL}...")
-    resp = requests.get(ENA_URL, timeout=30)
-    resp.raise_for_status()
-
-    soup = BeautifulSoup(resp.text, "html.parser")
-    links = soup.select("a[href*='sharepoint.com']")
-
+    """Scrape ena.lt pages and extract all dated Excel file URLs."""
     date_pattern = re.compile(r"\d{4}-\d{2}-\d{2}")
     result = {}
 
-    for link in links:
-        href = link.get("href", "")
-        title = link.get("title", "")
-        text = link.get_text()
-
-        # Only match Excel links (:x: in URL) with "kain" in title
-        if ":x:" not in href:
-            continue
-        if "kain" not in title.lower():
+    for page_url in ENA_URLS:
+        print(f"Scraping {page_url}...")
+        try:
+            resp = requests.get(page_url, timeout=30)
+            resp.raise_for_status()
+        except Exception as e:
+            print(f"  Failed to fetch {page_url}: {e}")
             continue
 
-        search_text = f"{text} {title} {href}"
-        match = date_pattern.search(search_text)
-        if match and match.group() not in result:
-            result[match.group()] = href
+        soup = BeautifulSoup(resp.text, "html.parser")
+        links = soup.select("a[href*='sharepoint.com']")
+
+        for link in links:
+            href = link.get("href", "")
+            title = link.get("title", "")
+            text = link.get_text()
+
+            # Only match Excel links (:x: in URL) with "kain" in title or text
+            if ":x:" not in href:
+                continue
+            combined = f"{text} {title}".lower()
+            if "kain" not in combined:
+                continue
+
+            search_text = f"{text} {title} {href}"
+            match = date_pattern.search(search_text)
+            if match and match.group() not in result:
+                result[match.group()] = href
 
     print(f"Found {len(result)} dated Excel files: {sorted(result.keys())}")
     return result
@@ -240,6 +249,68 @@ def safe_float(row: tuple, col: int | None) -> float | None:
         return None
 
 
+def geocode_prices(supabase_client, prices: list[dict]):
+    """Add lat/lng to prices using cached geocode data or Nominatim."""
+    import time
+    from geopy.geocoders import Nominatim
+    from geopy.exc import GeocoderTimedOut
+
+    # Load cached locations from Supabase
+    cached = {}
+    try:
+        result = supabase_client.table("station_locations").select("*").execute()
+        for row in (result.data or []):
+            cached[(row["company"], row["address"])] = (row["latitude"], row["longitude"])
+    except Exception:
+        pass  # Table might not exist yet
+
+    geolocator = Nominatim(user_agent="fuel_prices_lt", timeout=10)
+    new_geocodes = []
+
+    for price in prices:
+        key = (price["company"], price["address"])
+        if key in cached:
+            price["latitude"] = cached[key][0]
+            price["longitude"] = cached[key][1]
+            continue
+
+        # Try geocoding
+        try:
+            query = f"{price['address']}, {price.get('municipality', '')}, Lithuania"
+            location = geolocator.geocode(query)
+            if location:
+                price["latitude"] = round(location.latitude, 6)
+                price["longitude"] = round(location.longitude, 6)
+                cached[key] = (price["latitude"], price["longitude"])
+                new_geocodes.append({
+                    "company": price["company"],
+                    "address": price["address"],
+                    "latitude": price["latitude"],
+                    "longitude": price["longitude"]
+                })
+            else:
+                price["latitude"] = None
+                price["longitude"] = None
+            time.sleep(1.1)  # Nominatim rate limit: 1 req/sec
+        except (GeocoderTimedOut, Exception) as e:
+            print(f"    Geocode failed for {price['address']}: {e}")
+            price["latitude"] = None
+            price["longitude"] = None
+
+    # Cache new geocodes
+    if new_geocodes:
+        try:
+            supabase_client.table("station_locations").upsert(
+                new_geocodes, on_conflict="company,address"
+            ).execute()
+            print(f"  Cached {len(new_geocodes)} new geocoded locations")
+        except Exception as e:
+            print(f"  Failed to cache geocodes: {e}")
+
+    geocoded = sum(1 for p in prices if p.get("latitude"))
+    print(f"  Geocoded: {geocoded}/{len(prices)} stations")
+
+
 def upsert_to_supabase(supabase_client, prices: list[dict], date: str):
     """Upsert prices to Supabase with conflict handling."""
     if not prices:
@@ -288,6 +359,7 @@ def main():
             prices = parse_excel(excel_data, date)
             print(f"  Parsed {len(prices)} station records")
 
+            geocode_prices(supabase, prices)
             upsert_to_supabase(supabase, prices, date)
         except Exception as e:
             print(f"  ERROR processing {date}: {e}")

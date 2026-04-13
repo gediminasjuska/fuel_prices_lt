@@ -249,6 +249,31 @@ def safe_float(row: tuple, col: int | None) -> float | None:
         return None
 
 
+def apply_cached_coordinates(supabase_client, prices: list[dict]):
+    """Apply only cached coordinates — no network geocoding calls."""
+    cached = {}
+    try:
+        result = supabase_client.table("station_locations").select("*").execute()
+        for row in (result.data or []):
+            cached[(row["company"], row["address"])] = (row["latitude"], row["longitude"])
+    except Exception:
+        return  # No cache table yet
+
+    applied = 0
+    for price in prices:
+        key = (price["company"], price["address"])
+        if key in cached:
+            price["latitude"] = cached[key][0]
+            price["longitude"] = cached[key][1]
+            applied += 1
+        else:
+            price["latitude"] = None
+            price["longitude"] = None
+
+    if applied:
+        print(f"  Applied {applied}/{len(prices)} cached coordinates")
+
+
 def geocode_prices(supabase_client, prices: list[dict]):
     """Add lat/lng to prices using cached geocode data or Nominatim."""
     import time
@@ -359,7 +384,13 @@ def main():
             prices = parse_excel(excel_data, date)
             print(f"  Parsed {len(prices)} station records")
 
-            geocode_prices(supabase, prices)
+            # Geocoding: only apply cached coordinates, don't call Nominatim during collection
+            # Run 'python collect_prices.py --geocode' separately to geocode new addresses
+            if "--geocode" in sys.argv:
+                geocode_prices(supabase, prices)
+            else:
+                apply_cached_coordinates(supabase, prices)
+
             upsert_to_supabase(supabase, prices, date)
         except Exception as e:
             print(f"  ERROR processing {date}: {e}")

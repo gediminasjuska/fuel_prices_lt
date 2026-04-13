@@ -301,7 +301,7 @@ def geocode_prices(supabase_client, prices: list[dict]):
 
         # Try geocoding
         try:
-            query = f"{price['address']}, {price.get('municipality', '')}, Lithuania"
+            query = f"{price['address']}, Lithuania"
             location = geolocator.geocode(query)
             if location:
                 price["latitude"] = round(location.latitude, 6)
